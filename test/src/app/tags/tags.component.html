@@ -1,0 +1,31 @@
+ <div class="header-section">
+    <p class="breadcrumbs">
+      <button class="breadcrumb-link" [routerLink]="['/']">Accueil</button> /
+     <button class="btn-retour" [routerLink]="['/']">Retour aux tags</button>
+    </p>
+  </div>
+
+
+  <div class="tags-container">
+    <h2>Gestion des Tags</h2>
+    
+    <button (click)="loadTags()" class="load-button">
+      Charger les tags
+    </button>
+    
+    <ul class="tags-list">
+      @for(tag of tags; track tag.id) {
+        <li class="tag-item" [style.color]="tag.color">
+          {{ tag.name }}
+        </li>
+      } @empty {
+        <li class="empty-message">Aucun tag disponible !</li>
+      }
+    </ul>
+    
+    <a href="#" (click)="dialogAddTag(); $event.preventDefault()" class="add-tag-link">
+      + Ajouter une nouvelle étiquette
+    </a>
+  </div>
+
+
