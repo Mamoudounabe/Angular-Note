@@ -60,4 +60,10 @@ export class StorageService {
       tag.name.toLowerCase().trim() === normalizedSearch
     );
   }
+
+ /*  async deleteTag(tagId: number): Promise<void> {
+    const updatedTags = this.getTags().filter(tag => tag.id !== tagId);
+    this.saveAllTags(updatedTags);
+  } */
+
 }

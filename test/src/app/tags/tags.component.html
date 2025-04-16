@@ -1,4 +1,4 @@
- <div class="header-section">
+<!--  <div class="header-section">
     <p class="breadcrumbs">
       <button class="breadcrumb-link" [routerLink]="['/']">Accueil</button> /
      <button class="btn-retour" [routerLink]="['/']">Retour aux tags</button>
@@ -27,5 +27,153 @@
       + Ajouter une nouvelle étiquette
     </a>
   </div>
+ -->
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ <!-- 
+ <div class="header-section">
+  <nav aria-label="Fil d'Ariane">
+    <button class="breadcrumb-link" [routerLink]="['/']">
+      <i class="material-icons">home</i> Accueil
+    </button>
+    <span aria-hidden="true">/</span>
+    <span>Gestion des tags</span>
+  </nav>
+</div>
+
+<main class="tags-container">
+  <h1>Gestion des Tags</h1>
+  
+  <div class="actions-toolbar">
+    <button (click)="loadTags()" class="action-button" [disabled]="loaded">
+      <i class="material-icons">refresh</i> Actualiser
+    </button>
+    
+    <button (click)="startAddTag()" class="action-button primary">
+      <i class="material-icons">add</i> Nouveau tag
+    </button>
+  </div>
+  
+  <section class="tags-section">
+    @if (tags.length > 0) {
+      <ul class="tags-list">
+        @for(tag of tags; track tag.id) {
+          <li class="tag-list-item">
+            <app-tag 
+              [tag]="tag"
+              (dblclick)="startEditTag(tag)"
+              class="clickable">
+            </app-tag>
+            
+            <button (click)="deleteTag(tag)" class="icon-button">
+              <i class="material-icons">delete</i>
+            </button>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="empty-state">
+        <i class="material-icons">label_off</i>
+        <p>Aucun tag disponible</p>
+        <button (click)="startAddTag()" class="text-button">
+          Créer votre premier tag
+        </button>
+      </div>
+    }
+  </section>
+  
+  @if (editing) {
+    <form (ngSubmit)="submitTag()" class="tag-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="tag-name">Nom du tag</label>
+          <input 
+            type="text" 
+            id="tag-name" 
+            name="name" 
+            [(ngModel)]="editing.name" 
+            required
+            minlength="2"
+            maxlength="30">
+        </div>
+        
+        <div class="form-group">
+          <label for="tag-color">Couleur</label>
+          <div class="color-picker">
+            <input 
+              type="color" 
+              id="tag-color" 
+              name="color" 
+              [(ngModel)]="editing.color">
+            <span>{{editing.color}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" (click)="cancelEdit()" class="text-button">
+          Annuler
+        </button>
+        <button type="submit" class="primary">
+          {{ editing.id === 0 ? 'Créer' : 'Modifier' }}
+        </button>
+      </div>
+    </form>
+  }
+</main> -->
 
 
+
+
+<div class="tags-container">
+  <h1>Gestion des Tags</h1>
+
+  <!-- Formulaire d'ajout -->
+  <div class="add-tag-form">
+    <h2>Ajouter un nouveau tag</h2>
+    <div class="form-group">
+      <label>Nom :</label>
+      <input [(ngModel)]="newTag.name" placeholder="Nom du tag">
+    </div>
+    <div class="form-group">
+      <label>Couleur :</label>
+      <input type="color" [(ngModel)]="newTag.color">
+    </div>
+    <button (click)="addTag()">Ajouter</button>
+  </div>
+
+  <!-- Liste des tags -->
+  <div class="tags-list">
+    <h2>Liste des tags existants</h2>
+    
+    @for(tag of tags; track tag.id) {
+      <div class="tag-item">
+        @if(isEditing(tag.id)) {
+          <!-- Mode édition -->
+          <div class="edit-form">
+            <input [(ngModel)]="editingTags[tag.id].name">
+            <input type="color" [(ngModel)]="editingTags[tag.id].color">
+            <div class="actions">
+              <button (click)="saveTag(editingTags[tag.id])">Enregistrer</button>
+              <button (click)="cancelEdit(tag.id)">Annuler</button>
+            </div>
+          </div>
+        } @else {
+          <!-- Mode affichage -->
+          <div class="tag-display">
+            <app-tag [tag]="tag"></app-tag>
+            <div class="actions">
+              <button (click)="startEdit(tag)">Modifier</button>
+              <button (click)="deleteTag(tag.id)">Supprimer</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
