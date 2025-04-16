@@ -34,3 +34,104 @@
     color: #fff;
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+  .notes-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .notes-sidebar {
+    width: 300px;
+    border-right: 1px solid #eee;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  .notes-list {
+    list-style: none;
+    padding: 0;
+    
+    li {
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      
+      &:hover {
+        background: #f5f5f5;
+      }
+      
+      &.active {
+        background: #e3f2fd;
+      }
+      
+      small {
+        color: #666;
+        margin-left: auto;
+        padding-left: 1rem;
+      }
+      
+      button {
+        background: none;
+        border: none;
+        color: #f44336;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+  
+  .note-editor {
+    flex: 1;
+    padding: 2rem;
+    
+    input, textarea {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    textarea {
+      min-height: 300px;
+      resize: vertical;
+    }
+  }
+  
+  .note-tags {
+    margin: 1rem 0;
+    
+    label {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      
+      input {
+        width: auto;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+  
+  .tag {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+  }

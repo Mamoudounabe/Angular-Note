@@ -4,5 +4,65 @@
     </p>
   </div>
 
+  
 
-<p>note works!</p>
+
+
+
+
+
+
+
+
+
+  <div class="notes-container">
+    <div class="notes-sidebar">
+      <h2>Mes Notes</h2>
+      <button (click)="createNewNote()">+ Nouvelle Note</button>
+      
+      <ul class="notes-list">
+        @for(note of notes; track note.id) {
+          <li [class.active]="selectedNote?.id === note.id"
+              (click)="selectNote(note)">
+            {{ note.title || 'Sans titre' }}
+            <small>
+              {{ note.updatedAt | date:'short' }}
+            </small>
+            <button (click)="deleteNote(note.id); $event.stopPropagation()">
+              ×
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+  
+    @if(selectedNote) {
+      <div class="note-editor">
+        <input [(ngModel)]="selectedNote.title" 
+               placeholder="Titre de la note">
+        
+        <textarea [(ngModel)]="selectedNote.content"
+                  placeholder="Contenu de la note..."></textarea>
+        
+        <div class="note-tags">
+          <h3>Tags :</h3>
+          @for(tag of tagService.getTags(); track tag.id) {
+            <label>
+              <input type="checkbox" 
+                     [checked]="selectedNote.hasTag(tag.id)"
+                     (change)="selectedNote.toggleTag(tag)">
+              <span class="tag" [style.background-color]="tag.color">
+                {{ tag.name }}
+              </span>
+            </label>
+          }
+        </div>
+        
+        <button (click)="saveNote()">Enregistrer</button>
+      </div>
+    } @else {
+      <div class="note-placeholder">
+        <p>Sélectionnez une note ou créez-en une nouvelle</p>
+      </div>
+    }
+  </div>
