@@ -1,0 +1,123 @@
+
+
+  /* partie contenue*/
+
+
+  .hero {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f0f4f8;
+    border-radius: 12px;
+    margin: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+
+  .cta-buttons {
+    display: flex;
+    flex-direction: column; /* Un bouton en dessous de l'autre */
+    align-items: center;     /* Centrage horizontal */
+    gap: 1rem;               /* Espace entre les boutons */
+    margin-top: 1.5rem;
+  }
+  
+
+/*
+  .cta-button {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #3f51b5;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #3f51b5;
+  }*/
+  
+  .features {
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 800px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .features h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .features ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .features li {
+    padding: 0.5rem 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;  /* Les boutons l’un sous l’autre */
+    align-items: center;     /* Centrer horizontalement */
+    margin-top: 2rem;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    margin: 0.5rem 0; /* marge haut et bas pour créer l'espace */
+    padding: 0.8rem 1.5rem;
+    background-color: #3f51b5;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    min-width: 220px;
+  }
+
+
+
+
+
+
+
+
+
