@@ -20,7 +20,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   selector: 'app-note',
   standalone: true,
   imports: [
-      RouterLink,
       CommonModule,
       FormsModule,
       MatIconModule,
