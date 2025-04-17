@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -28,7 +29,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       MatInputModule,
       MatListModule,
       MatChipsModule,
-      MatTooltipModule],
+      MatTooltipModule,
+    RouterLink,
+    MatCheckboxModule
+  ],
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss']
 })

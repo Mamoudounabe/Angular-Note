@@ -1,3 +1,10 @@
+<!-- <div class="header-section">
+    <p class="breadcrumbs">
+      <button class="breadcrumb-link" [routerLink]="['/']">Accueil</button> 
+    </p>
+  </div>
+
+  
 
 <div class="notes-container">
   <div class="notes-sidebar">
@@ -7,12 +14,88 @@
              (input)="filterNotes()" 
              placeholder="Rechercher une note...">
     </div>
-    <button class="new-note-btn" (click)="createNewNote()">+ Nouvelle Note</button>
+    <button (click)="createNewNote()">+ Nouvelle Note</button>
     
     <ul class="notes-list">
       @if(noResultsFound) {
         <div class="no-results">
-          <span class="no-results-icon">!</span>
+          Aucune note trouvée pour "{{searchQuery}}"
+        </div>
+      }
+      @for(note of filteredNotes; track note.id) {
+        <li [class.active]="selectedNote?.id === note.id"
+            [class.highlighted]="searchQuery && note.title.toLowerCase().includes(searchQuery.toLowerCase())"
+            (click)="selectNote(note)">
+          {{ note.title || 'Sans titre' }}
+          <small>
+            {{ note.updatedAt | date:'short' }}
+          </small>
+          <button (click)="deleteNote(note.id); $event.stopPropagation()">
+            ×
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+
+  @if(selectedNote) {
+    <div class="note-editor">
+      <input [(ngModel)]="selectedNote.title" 
+             placeholder="Titre de la note">
+      
+      <textarea [(ngModel)]="selectedNote.content"
+                placeholder="Contenu de la note..."></textarea>
+      
+      <div class="note-tags">
+        <h3>Tags :</h3>
+        @for(tag of tagService.getTags(); track tag.id) {
+          <label>
+            <input type="checkbox" 
+                   [checked]="selectedNote.hasTag(tag.id)"
+                   (change)="selectedNote.toggleTag(tag)">
+            <span class="tag" [style.background-color]="tag.color">
+              {{ tag.name }}
+            </span>
+          </label>
+        }
+      </div>
+      
+      <button (click)="saveNote()">Enregistrer</button>
+    </div>
+  } @else {
+    <div class="note-placeholder">
+      <p>Sélectionnez une note ou créez-en une nouvelle</p>
+    </div>
+  }
+</div> -->
+
+
+
+
+<div class="header-section">
+  <p class="breadcrumbs">
+    <button class="breadcrumb-link" [routerLink]="['/']">Accueil</button> 
+  </p>
+</div>
+
+<div class="notes-container">
+  <div class="notes-sidebar">
+    <h2>Mes Notes</h2>
+    <div class="search-box">
+      <input type="text" [(ngModel)]="searchQuery" 
+             (input)="filterNotes()" 
+             placeholder="Rechercher une note...">
+    </div>
+    <button class="new-note-btn" (click)="createNewNote()">
+      <span>+</span> Nouvelle Note
+    </button>
+    
+    <ul class="notes-list">
+      @if(noResultsFound) {
+        <div class="no-results">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          </svg>
           <p>Aucune note trouvée pour "{{searchQuery}}"</p>
         </div>
       }
@@ -20,13 +103,13 @@
         <li [class.active]="selectedNote?.id === note.id"
             [class.highlighted]="searchQuery && note.title.toLowerCase().includes(searchQuery.toLowerCase())"
             (click)="selectNote(note)">
-          <div class="note-content">
-            <span class="note-title">{{ note.title || 'Sans titre' }}</span>
+          <div class="note-title">{{ note.title || 'Sans titre' }}</div>
+          <div class="note-meta">
             <span class="note-date">{{ note.updatedAt | date:'shortDate' }}</span>
+            <button class="delete-btn" (click)="deleteNote(note.id); $event.stopPropagation()" title="Supprimer">
+              ×
+            </button>
           </div>
-          <button class="delete-btn" (click)="deleteNote(note.id); $event.stopPropagation()" title="Supprimer">
-            ×
-          </button>
         </li>
       }
     </ul>
@@ -39,7 +122,7 @@
              class="note-title-input">
       
       <textarea [(ngModel)]="selectedNote.content"
-                placeholder="Contenu de la note..."
+                placeholder="Écrivez votre note ici..."
                 class="note-content-textarea"></textarea>
       
       <div class="note-tags">
@@ -49,7 +132,8 @@
             <label class="tag-label">
               <input type="checkbox" 
                      [checked]="selectedNote.hasTag(tag.id)"
-                     (change)="selectedNote.toggleTag(tag)">
+                     (change)="selectedNote.toggleTag(tag)"
+                     class="tag-checkbox">
               <span class="tag" [style.background-color]="tag.color">
                 {{ tag.name }}
               </span>
@@ -59,13 +143,28 @@
       </div>
       
       <div class="editor-actions">
-        <button class="save-btn" (click)="saveNote()">Enregistrer</button>
-        <button class="cancel-btn" (click)="selectedNote = null">Annuler</button>
+        <button class="save-btn" (click)="saveNote()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+          </svg>
+          Enregistrer
+        </button>
+        <button class="cancel-btn" (click)="selectedNote = null">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+          Annuler
+        </button>
       </div>
     </div>
   } @else {
     <div class="note-placeholder">
-      <p>Sélectionnez une note ou créez-en une nouvelle</p>
+      <div class="placeholder-content">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+          <path fill="#aaa" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+        </svg>
+        <p>Sélectionnez une note ou créez-en une nouvelle</p>
+      </div>
     </div>
   }
 </div>
