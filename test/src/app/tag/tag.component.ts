@@ -17,8 +17,8 @@ export class TagComponent {
 
 
 
-import { Component, Input } from '@angular/core'; // Ajout de l'import Input
-import { Tag } from '../tag'; // Vérifiez le chemin
+import { Component, Input } from '@angular/core'; 
+import { Tag } from '../tag'; 
 
 @Component({
   selector: 'app-tag',
@@ -31,5 +31,5 @@ import { Tag } from '../tag'; // Vérifiez le chemin
   styleUrls: ['./tag.component.scss']
 })
 export class TagComponent {
-  @Input() tag!: Tag; // Déclaration correcte de l'input
+  @Input() tag!: Tag; 
 }

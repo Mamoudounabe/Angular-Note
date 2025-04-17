@@ -1,8 +1,4 @@
 
-
-  /* partie contenue*/
-
-
   .hero {
     text-align: center;
     padding: 2rem;
@@ -25,29 +21,12 @@
 
   .cta-buttons {
     display: flex;
-    flex-direction: column; /* Un bouton en dessous de l'autre */
-    align-items: center;     /* Centrage horizontal */
-    gap: 1rem;               /* Espace entre les boutons */
+    flex-direction: column; 
+    align-items: center;     
+    gap: 1rem;               
     margin-top: 1.5rem;
   }
   
-
-/*
-  .cta-button {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.8rem 1.5rem;
-    background-color: #3f51b5;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .cta-button:hover {
-    background-color: #3f51b5;
-  }*/
   
   .features {
     margin: 2rem auto;
@@ -76,32 +55,19 @@
     align-items: center;
     gap: 0.5rem;
   }
-  
-
-  
-
-
-
-
-
-
-
-
-
-
 
 
 
   .cta-buttons {
     display: flex;
-    flex-direction: column;  /* Les boutons l’un sous l’autre */
-    align-items: center;     /* Centrer horizontalement */
+    flex-direction: column;  
+    align-items: center;     
     margin-top: 2rem;
   }
   
   .cta-button {
     display: inline-block;
-    margin: 0.5rem 0; /* marge haut et bas pour créer l'espace */
+    margin: 0.5rem 0; 
     padding: 0.8rem 1.5rem;
     background-color: #3f51b5;
     color: white;

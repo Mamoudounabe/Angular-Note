@@ -1,152 +1,3 @@
-/* import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { StorageService } from '../../services/storage.service';
-import { Tag, createTag } from '../tag'
-
-@Component({
-  selector: 'app-tags',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './tags.component.html',
-  styleUrl: './tags.component.scss'
-})
-export class TagsComponent {
-
-
-  loaded = false;
-  tags: Tag[] = [];
-
-  constructor(private storageService: StorageService) {}
-
-  async loadTags() {
-    if (!this.loaded) {
-      try {
-        this.tags = await this.storageService.getTags();
-        this.loaded = true;
-      } catch (error) {
-        console.error('Erreur lors du chargement des tags', error);
-      }
-    }
-  }
-
-  async dialogAddTag() {
-    const tagName = window.prompt('Entrez le nom du nouveau tag :');
-    
-    if (tagName && tagName.trim()) {
-      const newTag = createTag({
-        name: tagName.trim(),
-        color: this.generateRandomColor()
-      });
-
-      try {
-        await this.storageService.saveTag(newTag);
-        this.tags = [...this.tags, newTag]; 
-      } catch (error) {
-        console.error('Erreur lors de la sauvegarde du tag', error);
-      }
-    }
-  }
-
-  private generateRandomColor(): string {
-    return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-  }
-}
-
-
-
- */
-
-
-
-/*
-
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { StorageService } from '../../services/storage.service';
-import { Tag, createTag } from '../tag';
-import { TagComponent } from '../tag/tag.component';
-
-@Component({
-  selector: 'app-tags',
-  standalone: true,
-  imports: [RouterLink, FormsModule, TagComponent],
-  templateUrl: './tags.component.html',
-  styleUrl: './tags.component.scss'
-})
-export class TagsComponent {
-  loaded = false;
-  tags: Tag[] = [];
-  editing: Tag | null = null;
-
-  constructor(private storageService: StorageService) {}
-
-  async loadTags() {
-    if (!this.loaded) {
-      try {
-        this.tags = await this.storageService.getTags();
-        this.loaded = true;
-      } catch (error) {
-        console.error('Erreur lors du chargement des tags', error);
-      }
-    }
-  }
-
-  startAddTag() {
-    this.editing = createTag({
-      id: 0,
-      name: '',
-      color: this.generateRandomColor()
-    });
-  }
-
-  startEditTag(tag: Tag) {
-    this.editing = { ...tag };
-  }
-
-  async deleteTag(tag: Tag) {
-    if (confirm(`Supprimer le tag "${tag.name}" ?`)) {
-      try {
-        await this.storageService.deleteTag(tag.id);
-        this.tags = this.tags.filter(t => t.id !== tag.id);
-      } catch (error) {
-        console.error('Erreur lors de la suppression du tag', error);
-      }
-    }
-  }
-
-  async submitTag() {
-    if (!this.editing) return;
-
-    const tagToSave = this.editing;
-    
-    try {
-      await this.storageService.saveTag(tagToSave);
-      
-      if (tagToSave.id === 0) {
-        // Nouveau tag
-        this.tags = [...this.tags, tagToSave];
-      } else {
-        // Mise à jour
-        this.tags = this.tags.map(t => t.id === tagToSave.id ? tagToSave : t);
-      }
-      
-      this.editing = null;
-    } catch (error) {
-      console.error('Erreur lors de la sauvegarde du tag', error);
-    }
-  }
-
-  cancelEdit() {
-    this.editing = null;
-  }
-
-  private generateRandomColor(): string {
-    return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-  }
-}*/
-
-
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -154,18 +5,53 @@ import { RouterLink } from '@angular/router';
 import { TagComponent } from '../tag/tag.component';
 import { StorageService } from '../../services/storage.service';
 import { Tag, createTag, isValidTag } from '../tag';
+import { CommonModule } from '@angular/common'; 
+
 
 @Component({
   selector: 'app-tags',
   standalone: true,
-  imports: [RouterLink, FormsModule, TagComponent],
+  imports: [RouterLink, FormsModule, TagComponent, CommonModule],
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss']
 })
 export class TagsComponent {
   tags: Tag[] = [];
-  newTag = createTag(); // Pour le formulaire d'ajout
-  editingTags: { [key: number]: Tag } = {}; // Dictionnaire des tags en édition
+  newTag = createTag(); 
+  editingTags: { [key: number]: Tag } = {}; 
+
+  filteredTags: Tag[] = [];
+  searchQuery: string = '';
+  isSearching:boolean  = false;
+  //isSearching:boolean  = true;
+
+
+    filterTags(): void {
+      if (!this.searchQuery.trim()) {
+        this.filteredTags = [...this.tags];
+        this.isSearching = false;
+        //this.isSearching = true;
+      } else {
+        const query = this.searchQuery.toLowerCase().trim();
+        this.filteredTags = this.tags.filter(tag => 
+          tag.name.toLowerCase().includes(query)
+        );
+        this.isSearching = true;
+       // this.isSearching = false
+
+
+      }
+    }
+  
+
+
+    get noResultsFound(): boolean {
+      return this.isSearching && this.filteredTags.length === 0;
+    }
+
+
+
+
 
   constructor(private storageService: StorageService) {}
 
@@ -175,6 +61,8 @@ export class TagsComponent {
 
   async loadTags() {
     this.tags = await this.storageService.getTags();
+
+    this.filteredTags = [...this.tags];
     this.resetEditingStates();
   }
 
@@ -184,7 +72,7 @@ export class TagsComponent {
   }
 
   startEdit(tag: Tag) {
-    // Copie le tag dans l'objet editingTags
+    
     this.editingTags[tag.id] = { ...tag };
   }
 
@@ -199,14 +87,14 @@ export class TagsComponent {
   async saveTag(tag: Tag) {
     if (isValidTag(tag)) {
       await this.storageService.saveTag(tag);
-      await this.loadTags(); // Recharge la liste mise à jour
+      await this.loadTags();
     }
   }
 
   async addTag() {
     if (isValidTag(this.newTag)) {
       await this.storageService.saveTag(this.newTag);
-      this.newTag = createTag(); // Réinitialise pour un nouveau tag
+      this.newTag = createTag(); 
       await this.loadTags();
     }
   }

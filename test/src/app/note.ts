@@ -1,36 +1,6 @@
-/*export interface Note {
-} */
-/*
-import { Tag } from "./tag";
 
-export class Note{
-    id!: number;
-    tags!:  Tag[];
-
-
-    constructor(id:number,tags:Ta[]=[])
-    {
-        this.id=id;
-        this.tags=tags;
-    }
-
-    getId(){
-        return this.id;
-    }
-
-    getTags(): Tag[] {
-        return this.tags;
-    }
-}*/
-
-
-
-
-
-// src/app/note.ts
 import { Tag } from './tag';
 
-// src/app/note.ts
 export interface Note {
     id: number;
     title: string;
@@ -40,20 +10,20 @@ export interface Note {
     updatedAt: Date;
   }
 
-  // src/app/note.ts
+  
 export class NoteClass implements Note {
     constructor(
       public id: number,
       public title: string,
       public content: string,
-      public tags: number[] = [], // Valeur par défaut
+      public tags: number[] = [], 
       public createdAt: Date = new Date(),
       public updatedAt: Date = new Date()
     ) {}
   
     static createNew(): NoteClass {
       return new NoteClass(
-        Date.now(), // ID temporaire
+        Date.now(), 
         '',
         '',
         [],
@@ -73,6 +43,6 @@ export class NoteClass implements Note {
       } else {
         this.tags.splice(index, 1);
       }
-      this.updatedAt = new Date(); // Mise à jour de la date de modification
+      this.updatedAt = new Date(); 
     }
   }
